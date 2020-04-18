@@ -2,6 +2,7 @@ from turtle import *
 snake = Turtle()
 snake_list = [(0,100),(20,100),(40,100),(60,100),(80,100)]
 stamp_list = []
+aaa
 def drawSnake(snake_list):
     snake.hideturtle()
     tracer(0)
