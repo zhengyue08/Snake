@@ -6,11 +6,13 @@ stamp_list = []
 def drawSnake(snake_list):
     snake.hideturtle()
     tracer(0)
-    snake.penup()
-    snake.goto(snake_list[0])
+    # snake.penup()
+    # snake.goto(snake_list[0])
     snake.shape("square")
     snake.pencolor("red")
-    snake.pendown()
+    # snake.fillcolor("red")
+    # snake.pendown()
+
     for i in snake_list:
         if i==snake_list[-1]:
             snake.penup()
@@ -29,5 +31,6 @@ def drawSnake(snake_list):
             stamp_list.append(a)
     update()
 drawSnake(snake_list)
-
+# drawSnake(snake_list)
+print(stamp_list)
 done()
