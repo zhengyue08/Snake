@@ -1,10 +1,13 @@
 from turtle import *
 import threading
+import random
 unit = 20
 snake = Turtle()
+food = Turtle()
 screen = Screen()
 snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
 stamp_list = []
+food_dic = {}
 snake_dir="up"
 
 def drawSnake(snake_list):
@@ -27,7 +30,7 @@ def drawSnake(snake_list):
             snake.pendown()
             n = snake.stamp()
             stamp_list.append(n)
-
+    update()
 
 
 def goUp():
@@ -36,12 +39,9 @@ def goUp():
 def goRight():
     global snake_dir
     snake_dir = "right"
-
-
 def goDown():
     global snake_dir
     snake_dir = "down"
-
 def goLeft():
     global snake_dir
     snake_dir = "left"
@@ -51,7 +51,6 @@ def control():
     screen.onkey(goRight, "Right")
     screen.onkey(goUp, "Up")
     screen.onkey(goDown, "Down")
-
 
 def mainMove():
     drawSnake(snake_list)
@@ -69,7 +68,19 @@ def mainMove():
     drawSnake(snake_list)
     screen.ontimer(mainMove,250)
 
-mainMove()
+def creatFood():
+    global food_dic
+    tracer(0)
+    food.hideturtle()
+    for i in range(1, 10):
+        food.penup()
+        foodxy = random.randrange(-200, 200,15), random.randrange(-200, 200, 15)
+        food.goto(foodxy)
+        food.pendown()
+        food.write(i,font=[9])
+        food_dic[i]=foodxy
 
+
+creatFood()
 
 done()
