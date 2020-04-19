@@ -5,11 +5,12 @@ unit = 20
 snake = Turtle()
 food = Turtle()
 screen = Screen()
+screen.setup(500,500)
 snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
 stamp_list = []
 food_dic = {}
 snake_dir="up"
-
+foodsize=0
 def drawSnake(snake_list):
     snake.hideturtle()
     tracer(0)
@@ -32,7 +33,6 @@ def drawSnake(snake_list):
             stamp_list.append(n)
     update()
 
-
 def goUp():
     global snake_dir
     snake_dir = "up"
@@ -45,6 +45,7 @@ def goDown():
 def goLeft():
     global snake_dir
     snake_dir = "left"
+#方向总控
 def control():
     screen.listen()
     screen.onkey(goLeft,"Left")
@@ -52,21 +53,40 @@ def control():
     screen.onkey(goUp, "Up")
     screen.onkey(goDown, "Down")
 
-def mainMove():
-    drawSnake(snake_list)
+def isEaten():
+    global foodsize
+    head= snake_list[-1]
+    for foodxy in list(food_dic.keys()):
+        disx=abs(head[0]-foodxy[0])
+        disy=abs(head[1]-foodxy[1])
+        if (disx<=10) and (disy<=10):
+            foodsize=food_dic[foodxy]
+            # print("Eaten")
+            # print(foodsize)
+            return True
+    return False
+
+def move():
+    global foodsize
+    global add
+    # drawSnake(snake_list)
     snake.clearstamps()
-    del snake_list[0]
+    isEaten()
+    if foodsize==0:
+        del snake_list[0]
+    else:
+        foodsize-=1
     control()
-    if snake_dir=="right":
+    if snake_dir == "right":
         snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
-    if snake_dir=="left":
+    if snake_dir == "left":
         snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
-    if snake_dir=="up":
-        snake_list.append((snake_list[-1][0] , snake_list[-1][1]+unit))
-    if snake_dir=="down":
-        snake_list.append((snake_list[-1][0] , snake_list[-1][1]-unit))
+    if snake_dir == "up":
+        snake_list.append((snake_list[-1][0], snake_list[-1][1] + unit))
+    if snake_dir == "down":
+        snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
     drawSnake(snake_list)
-    screen.ontimer(mainMove,250)
+    screen.ontimer(move,200)
 
 def creatFood():
     global food_dic
@@ -74,13 +94,15 @@ def creatFood():
     food.hideturtle()
     for i in range(1, 10):
         food.penup()
-        foodxy = random.randrange(-200, 200,15), random.randrange(-200, 200, 15)
+        foodxy = random.randrange(-220, 220,20), random.randrange(-220, 220, 20)
         food.goto(foodxy)
         food.pendown()
-        food.write(i,font=[9])
-        food_dic[i]=foodxy
-
-
+        food.fillcolor("black")
+        food.write(i,font=["Arial Bold", 15])
+        food_dic[foodxy]=i
 creatFood()
+
+
+move()
 
 done()
