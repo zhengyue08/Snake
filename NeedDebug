@@ -1,0 +1,406 @@
+from turtle import *
+import threading
+import time
+import random
+import sys
+sys.setrecursionlimit(999999)  # set the maximum depth as 1500
+
+
+snake_dir = 'u'
+
+def snakeDir():
+    return snake_dir
+
+
+snake_list = [(2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (6, 2), (6, 3)]
+snake = Turtle()
+food = Turtle()
+screen = Screen()
+screen.setup(width=500, height=500)
+
+
+
+# Verified
+def convertCod(snake_list):
+
+    cod_list = []
+    for cod in snake_list:
+        x = cod[0]
+        y = cod[1]
+        x_cod = x * 20
+        y_cod = y * 20
+        new_cod = (x_cod, y_cod)
+        cod_list.append(new_cod)
+
+    return cod_list
+
+
+
+def createFood():
+    global food_list
+    food_list = {}
+    tracer(False)
+    for i in list(range(1, 10)):
+        cod_list = list(range(-12, 13))
+        x_fd = random.choice(cod_list) * 20
+        y_fd = random.choice(cod_list) * 20
+        cod_pair = (x_fd, y_fd)
+        food_list[i] = cod_pair
+        food.penup()
+        food.goto(x_fd, y_fd)
+        food.pendown()
+        food.write(i, font=["Arial Bold", 10])
+    update()
+
+
+def startUI():
+    global n
+    # global restart
+    if True:
+
+        hideturtle()
+        penup()
+        goto(-200, 100)
+        write("Welcome to Boke's version of Snake\n\n"
+              "You are going to use the 4 arrow keys to move the snake\n"
+              "around the screen, trying to consume all the food items\n"
+              "before the monster catches you...\n\n"
+              "press 'Space' to start the game, have fun!!", font=["Arial Bold", 15])
+        screen.onkey(mainMove, "space")
+        screen.listen()
+        screen.mainloop()
+
+
+# turn right
+def right():
+    global snake_dir
+    if snake_dir == 'u':
+        snake_dir = 'r'
+        print('right')
+        print(snake_dir)
+    elif snake_dir == 'd':
+        snake_dir = 'r'
+        print('right')
+        print(snake_dir)
+
+
+# turn left
+def left():
+    global snake_dir
+    if snake_dir == 'u':
+        snake_dir = 'l'
+        print('left')
+        print(snake_dir)
+    elif snake_dir == 'd':
+        snake_dir = 'l'
+        print('left')
+        print(snake_dir)
+
+
+# turn left
+def up():
+    global snake_dir
+    if snake_dir == 'l':
+        snake_dir = 'u'
+        print('up')
+        print(snake_dir)
+    elif snake_dir == 'r':
+        snake_dir = 'u'
+        print('up')
+        print(snake_dir)
+
+
+# turn left
+def down():
+    global snake_dir
+    if snake_dir == 'l':
+        snake_dir = 'd'
+        print('down')
+        print(snake_dir)
+    elif snake_dir == 'r':
+        snake_dir = 'd'
+        print('down')
+        print(snake_dir)
+
+
+def drawRedSquare():
+    global stamp_list
+    screen.tracer(False)
+    snake.pencolor("blue")
+    snake.shape("square")
+    snake.shapesize(1, 1, 0)
+    back = snake.stamp()
+    stamp_list.append(back)
+    print(snake.pos())
+    a = snake.pos()
+
+    if (a[0] <= -240) and (a[1] >= 240) and (snake_dir == 'u'):
+        print('nw Vertex')
+        right()
+    elif (a[0] <= -240) and (a[1] >= 240) and (snake_dir == 'l'):
+        print('nw Vertex')
+        down()
+    elif (a[0] <= -240) and (a[1] <= -240) and (snake_dir == 'd'):
+        print('sw Vertex')
+        right()
+    elif (a[0] <= -240) and (a[1] >= 240) and (snake_dir == 'l'):
+        print('sw Vertex')
+        up()
+    elif (a[0] >= 240) and (a[1] <= -240) and (snake_dir == 'r'):
+        print('se Vertex')
+        up()
+    elif (a[0] >= 240) and (a[1] <= -240) and (snake_dir == 'l'):
+        print('se Vertex')
+        left()
+    elif (a[1] >= 240) and (snake_dir == 'u'):
+        print('Top')
+        left()
+    elif (a[0] <= -240) and (snake_dir == 'l'):
+        print('Left')
+        down()
+    elif (a[0] >= 240) and (snake_dir == 'r'):
+        print('Right')
+        up()
+    elif (a[1] <= -240) and (snake_dir == 'd'):
+        print('Bottom')
+        right()
+
+
+
+def drawSquare():
+    global stamp_list
+    tracer(False)
+    snake.pencolor("red")
+    snake.shape("square")
+    snake.shapesize(1, 1, 0)
+    back = snake.stamp()
+    stamp_list.append(back)
+
+
+
+def drawSnake(cod_list):
+    for cod_xy in cod_list:
+        x = cod_xy[0]
+        y = cod_xy[1]
+        snake.penup()
+        snake.goto(x, y)
+        snake.pendown()
+        drawSquare()
+    cod_h = cod_list[0]
+    x = cod_h[0]
+    y = cod_h[1]
+    snake.penup()
+    snake.goto(x, y)
+    snake.pendown()
+    drawRedSquare()
+
+
+# Verified
+def newSnakeList(snake_list):
+    # Remove the last box
+    length = len(snake_list)
+    del snake_list[length-1]
+    new_length = length - 1
+    new_snake_list = []
+    # Add a new box at the head
+    if snakeDir() == 'l':
+        print(snakeDir())
+        cod = snake_list[0]
+        x = cod[0]
+        y = cod[1]
+        x = x - 1
+        new_cod = (x, y)
+        new_snake_list.append(new_cod)
+    elif snakeDir() == 'r':
+        print(snakeDir())
+        cod = snake_list[0]
+        x = cod[0]
+        y = cod[1]
+        x = x + 1
+        new_cod = (x, y)
+        new_snake_list.append(new_cod)
+    elif snakeDir() == 'u':
+        print(snakeDir())
+        cod = snake_list[0]
+        x = cod[0]
+        y = cod[1]
+        y = y + 1
+        new_cod = (x, y)
+        new_snake_list.append(new_cod)
+    elif snakeDir() == 'd':
+        print(snakeDir())
+        cod = snake_list[0]
+        x = cod[0]
+        y = cod[1]
+        y = y - 1
+        new_cod = (x, y)
+        new_snake_list.append(new_cod)
+    for remainder in snake_list:
+        new_snake_list.append(remainder)
+    return new_snake_list
+
+
+
+
+
+def clearstamp_my():
+    global stamp_list
+    for i in stamp_list:
+        snake.clearstamp(i)
+
+
+def pause():
+    global snake_timer
+    snake_timer.cancel()
+    screen.onkey(mainMove, "space")
+    screen.listen()
+
+def snakeMove():
+    #if restart == True:
+    #    return
+    global snake_timer
+    snake_timer = threading.Timer(0.2, mainMove)
+    snake_timer.start()
+    global stamp_list
+    global n
+    global snake_list
+    global pause_ctr
+    tracer(False)
+    if n != 0:
+        clearstamp_my()
+        stamp_list = []
+    else:
+        clearscreen()
+        createFood()
+        stamp_list = []
+    # screen.clear()
+    snake.hideturtle()
+    snake_list = newSnakeList(snake_list)
+    cod_list = convertCod(snake_list)
+    drawSnake(cod_list)
+    update()
+    n = n + 1
+    print(n)
+    screen.onkey(right, "Right")
+    screen.onkey(left, "Left")
+    screen.onkey(up, "Up")
+    screen.onkey(down, "Down")
+    # screen.onkey(pause, "space")
+
+    # ontimer(mainMove, 200)
+    # 100ms后继续调用
+    screen.listen()
+
+# Verified
+def appendSeg():
+    global snake_list
+    length_app = len(snake_list)
+    index_max = length_app - 1
+    last_1 = snake_list[index_max]
+    last_2 = snake_list[index_max - 1]
+    x_last_1 = last_1[0]
+    x_last_2 = last_2[0]
+    y_last_1 = last_1[1]
+    y_last_2 = last_2[1]
+    if (x_last_1 - x_last_2 == 1): # have to append rightward
+        x_new = x_last_1 + 1
+        y_new = y_last_1
+        pair_new = (x_new, y_new)
+        snake_list.append(pair_new)
+    elif (x_last_1 - x_last_2 == -1): # have to append leftward
+        x_new = x_last_1 - 1
+        y_new = y_last_1
+        pair_new = (x_new, y_new)
+        snake_list.append(pair_new)
+    elif (y_last_1 - y_last_2 == 1): # have to append upward
+        x_new = x_last_1
+        y_new = y_last_1 + 1
+        pair_new = (x_new, y_new)
+        snake_list.append(pair_new)
+    elif (y_last_1 - y_last_2 == -1): # have to append downward
+        x_new = x_last_1
+        y_new = y_last_1 - 1
+        pair_new = (x_new, y_new)
+        snake_list.append(pair_new)
+
+
+def singleMoveTail():
+    # if restart == True:
+    #    return
+    global stamp_list
+    global n
+    global snake_list
+    global pause_ctr
+    tracer(False)
+    clearstamp_my()
+    stamp_list = []
+    # screen.clear()
+    snake.hideturtle()
+    snake_list = newSnakeList(snake_list)  # Has renewed!
+    # append a new tail segment
+    appendSeg()
+    # end
+    cod_list = convertCod(snake_list)
+    drawSnake(cod_list)
+    update()
+    n = n + 1
+    print(n)
+    screen.onkey(right, "Right")
+    screen.onkey(left, "Left")
+    screen.onkey(up, "Up")
+    screen.onkey(down, "Down")
+    # screen.onkey(pause, "space")
+    # ontimer(mainMove, 200)
+    # 100ms后继续调用
+    screen.listen()
+
+
+def tailExt(number):
+    card = 1
+    while card <= number:
+        snake_timer = threading.Timer(0.2, singleMoveTail)
+        snake_timer.start()
+        card = card + 1
+
+
+def judgeInRange(head_cod):
+    global post_food
+    for food_index in list(food_list.keys()):
+        food_cod = food_list[food_index]
+        x_cod_food = food_cod[0]
+        y_cod_food = food_cod[1]
+        x_cod_head = head_cod[0]
+        y_cod_head = head_cod[1]
+        delta_x = x_cod_food - x_cod_food
+        delta_y = x_cod_food - y_cod_food
+        abs_x = abs(delta_x)
+        abs_y = abs(delta_y)
+        if (abs_x <= 30) and (abs_y <= 30):
+            post_food = food_index
+            return True
+
+
+def mainMove():
+    global n
+    #Judge preprocessing
+    head_cod = snake_list[0]
+    if n == 0:
+        snakeMove()
+    else:
+        #input()
+        #if judgeInRange(head_cod) == True:
+        #    tailExt(post_food)
+        #else:
+        snakeMove()
+
+    # global restart
+    # Main program
+
+
+    # End of main program
+
+
+
+n = 0
+startUI()
+
