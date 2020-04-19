@@ -6,11 +6,12 @@ snake = Turtle()
 food = Turtle()
 screen = Screen()
 screen.setup(500,500)
-snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
+snake_list = [(15,0),(15,unit),(15,unit*2),(15,unit*3),(15,unit*4),(15,unit*5)]
 stamp_list = []
 food_dic = {}
 snake_dir="up"
 foodsize=0
+
 def drawSnake(snake_list):
     snake.hideturtle()
     tracer(0)
@@ -21,16 +22,12 @@ def drawSnake(snake_list):
             snake.penup()
             snake.fillcolor("red")
             snake.goto(i)
-            snake.pendown()
-            n=snake.stamp()
-            stamp_list.append(n)
+            snake.stamp()
         else:
             snake.penup()
             snake.fillcolor("black")
             snake.goto(i)
-            snake.pendown()
-            n = snake.stamp()
-            stamp_list.append(n)
+            snake.stamp()
     update()
 
 def goUp():
@@ -61,8 +58,6 @@ def isEaten():
         disy=abs(head[1]-foodxy[1])
         if (disx<=10) and (disy<=10):
             foodsize=food_dic[foodxy]
-            # print("Eaten")
-            # print(foodsize)
             return True
     return False
 
@@ -94,11 +89,11 @@ def creatFood():
     food.hideturtle()
     for i in range(1, 10):
         food.penup()
-        foodxy = random.randrange(-220, 220,20), random.randrange(-220, 220, 20)
+        foodxy = (random.randrange(-240, 240,20), random.randrange(-240, 240, 20))
         food.goto(foodxy)
         food.pendown()
         food.fillcolor("black")
-        food.write(i,font=["Arial Bold", 15])
+        food.write(i,align="center",font=["Arial Bold",12])
         food_dic[foodxy]=i
 creatFood()
 

@@ -4,7 +4,6 @@ unit = 20
 snake = Turtle()
 screen = Screen()
 snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
-stamp_list = []
 snake_dir="up"
 
 def drawSnake(snake_list):
@@ -17,16 +16,16 @@ def drawSnake(snake_list):
             snake.penup()
             snake.fillcolor("red")
             snake.goto(i)
-            snake.pendown()
-            n=snake.stamp()
-            stamp_list.append(n)
+            # snake.pendown()
+            snake.stamp()
+
         else:
             snake.penup()
             snake.fillcolor("black")
             snake.goto(i)
-            snake.pendown()
-            n = snake.stamp()
-            stamp_list.append(n)
+            # snake.pendown()
+            snake.stamp()
+
 
 
 
