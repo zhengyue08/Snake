@@ -17,6 +17,8 @@ food_dic = {}
 snake_dir="up"
 foodsize=0
 foodnumber=9
+head =(0,0)
+tail =(0,0)
 
 def creatFood():
     global food_dic
@@ -70,6 +72,7 @@ def control():
 def isEaten():
     global foodnumber
     global foodsize
+    global head
     head= snake_list[-1]
     for foodxy in list(food_dic.keys()):
         disx=abs(head[0]-foodxy[0])
@@ -77,7 +80,7 @@ def isEaten():
         # disx = head[0] - foodxy[0]
         # disy = head[1] - foodxy[1]
         if (disx==0) and (disy==0):
-            foodsize=food_dic[foodxy]
+            foodsize=food_dic[foodxy]+foodsize
             del food_dic[foodxy]
             food.pencolor("white")
             food.goto(foodxy)
@@ -86,11 +89,11 @@ def isEaten():
     return False
 
 def move():
+    global head
     global foodnumber
     global foodsize
-    global add
-    global isfoodN
-    # drawSnake(snake_list)
+    global tail
+    tail=snake_list[0]
     snake.clearstamps()
     deci=isEaten()
     if deci==True:
@@ -101,14 +104,31 @@ def move():
     else:
         foodsize-=1
     control()
-    if snake_dir == "right":
-        snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
+    if snake_dir == "right" :
+        # snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
+        if (head[0]<220):
+            snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
+        else:
+            snake_list.insert(0,tail)
+
     if snake_dir == "left":
-        snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
+        # snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
+        if (-240<head[0]):
+            snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
+        else:
+            snake_list.insert(0,tail)
     if snake_dir == "up":
-        snake_list.append((snake_list[-1][0], snake_list[-1][1] + unit))
+        # snake_list.append((snake_list[-1][0] , snake_list[-1][1]+unit))
+        if (head[1]<240):
+            snake_list.append((snake_list[-1][0] , snake_list[-1][1] +unit))
+        else:
+            snake_list.insert(0,tail)
     if snake_dir == "down":
-        snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
+        # snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
+        if (-220<head[1]):
+            snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
+        else:
+            snake_list.insert(0,tail)
     drawSnake(snake_list)
     if foodnumber==0:
         food.goto((0,0))
