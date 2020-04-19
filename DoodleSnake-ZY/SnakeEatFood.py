@@ -4,6 +4,10 @@ import random
 unit = 20
 snake = Turtle()
 food = Turtle()
+food.shape("square")
+food.fillcolor("white")
+food.turtlesize(1.5)
+food.penup()
 screen = Screen()
 screen.setup(500,500)
 snake_list = [(15,0),(15,unit),(15,unit*2),(15,unit*3),(15,unit*4),(15,unit*5)]
@@ -57,7 +61,11 @@ def isEaten():
         disx=abs(head[0]-foodxy[0])
         disy=abs(head[1]-foodxy[1])
         if (disx<=10) and (disy<=10):
+
             foodsize=food_dic[foodxy]
+            food.pencolor("white")
+            food.goto(foodxy)
+            food.stamp()
             return True
     return False
 
@@ -91,8 +99,7 @@ def creatFood():
         food.penup()
         foodxy = (random.randrange(-240, 240,20), random.randrange(-240, 240, 20))
         food.goto(foodxy)
-        food.pendown()
-        food.fillcolor("black")
+        # food.pendown()
         food.write(i,align="center",font=["Arial Bold",12])
         food_dic[foodxy]=i
 creatFood()
