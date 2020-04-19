@@ -26,7 +26,7 @@ monster.penup()
 monster.shape("square")
 monster.pencolor("purple")
 monster.fillcolor("purple")
-monPosition= (-110,-110)
+monPosition= (-120,-120)
 tracer(0)
 monster.goto(monPosition)
 
@@ -140,7 +140,7 @@ def snakeMove():
         else:
             snake_list.insert(0,tail)
     drawSnake(snake_list)
-    if foodnumber==0:
+    if foodnumber<=0:
         food.goto((0,0))
         food.pencolor("orange")
         food.write("You are the WINNER",align="center",font=["Optima Bold",50])
@@ -149,23 +149,20 @@ def monsterMove():
     global snake_dir
     global monPosition
     monster.st()
-    id=monster.stamp()
-    monster.clearstamp(id)
     control()
     if snake_dir=="up":
-        monster.goto(monPosition[0] ,(monPosition[1]+60))
-        # monster.stamp()
+        if monPosition[1]<220:
+            monster.goto(monPosition[0] ,(monPosition[1]+45))
     if snake_dir=="down":
-        monster.goto(monPosition[0] , (monPosition[1]-60))
-       # monster.stamp()
+        if monPosition[1]>(-220):
+            monster.goto(monPosition[0] , (monPosition[1]-55))
     if snake_dir=="right":
-        monster.goto((monPosition[0] + 60) , monPosition[1])
-        # monster.stamp()
+        if monPosition[0]<220:
+            monster.goto((monPosition[0] + 35) , monPosition[1])
     if snake_dir=="left":
-        monster.goto((monPosition[0] - 60) , monPosition[1])
-        # monster.stamp()
+        if monPosition[0]>(-220):
+            monster.goto((monPosition[0] - 55) , monPosition[1])
     monPosition = monster.pos()
-    # monster.stamp()
     screen.ontimer(monsterMove,400)
 
 
