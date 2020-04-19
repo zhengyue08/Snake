@@ -16,14 +16,12 @@ def drawSnake(snake_list):
             snake.penup()
             snake.fillcolor("red")
             snake.goto(i)
-            # snake.pendown()
             snake.stamp()
 
         else:
             snake.penup()
             snake.fillcolor("black")
             snake.goto(i)
-            # snake.pendown()
             snake.stamp()
 
 
@@ -53,7 +51,6 @@ def control():
 
 
 def mainMove():
-    drawSnake(snake_list)
     snake.clearstamps()
     del snake_list[0]
     control()
@@ -66,9 +63,11 @@ def mainMove():
     if snake_dir=="down":
         snake_list.append((snake_list[-1][0] , snake_list[-1][1]-unit))
     drawSnake(snake_list)
-    screen.ontimer(mainMove,250)
-
-mainMove()
+    screen.ontimer(mainMove,200)
 
 
+def a():
+    thread=threading.Thread(target=mainMove)
+    thread.start()
+a()
 done()
