@@ -1,16 +1,13 @@
 from turtle import *
 import threading
 import random
-import time
-import sys
 unit = 20
 snake = Turtle();snake.hideturtle()
-food = Turtle();food.hideturtle()
-
+food = Turtle()
+food.hideturtle()
 food.shape("square")
 food.fillcolor("white")
 food.turtlesize(1.5)
-
 food.penup()
 screen = Screen()
 screen.setup(500,500)
@@ -22,15 +19,7 @@ foodsize=0
 foodnumber=9
 head =(0,0)
 tail =(0,0)
-monster = Turtle()
-monster.ht()
-monster.penup()
-monster.shape("square")
-monster.pencolor("purple")
-monster.fillcolor("purple")
-monPosition= (-120,-120)
-tracer(0)
-monster.goto(monPosition)
+
 def creatFood():
     global food_dic
     tracer(0)
@@ -62,20 +51,16 @@ def drawSnake(snake_list):
 
 def goUp():
     global snake_dir
-    if snake_dir == "right" or snake_dir == "left":
-        snake_dir = "up"
+    snake_dir = "up"
 def goRight():
     global snake_dir
-    if snake_dir == "up" or snake_dir == "down":
-        snake_dir = "right"
+    snake_dir = "right"
 def goDown():
     global snake_dir
-    if snake_dir=="right" or snake_dir=="left":
-        snake_dir = "down"
+    snake_dir = "down"
 def goLeft():
     global snake_dir
-    if snake_dir=="up" or snake_dir=="down":
-        snake_dir = "left"
+    snake_dir = "left"
 #方向总控
 def control():
     screen.listen()
@@ -103,12 +88,11 @@ def isEaten():
             return True
     return False
 
-def gameMain():
+def move():
     global head
     global foodnumber
     global foodsize
     global tail
-    global monPosition
     tail=snake_list[0]
     snake.clearstamps()
     deci=isEaten()
@@ -122,73 +106,41 @@ def gameMain():
     control()
     if snake_dir == "right" :
         # snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
-        if (head[0]<230):
+        if (head[0]<220):
             snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
 
     if snake_dir == "left":
         # snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
-        if (-230<head[0]):
+        if (-240<head[0]):
             snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
     if snake_dir == "up":
         # snake_list.append((snake_list[-1][0] , snake_list[-1][1]+unit))
-        if (head[1]<230):
+        if (head[1]<240):
             snake_list.append((snake_list[-1][0] , snake_list[-1][1] +unit))
         else:
             snake_list.insert(0,tail)
     if snake_dir == "down":
         # snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
-        if (-230<head[1]):
+        if (-220<head[1]):
             snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
         else:
             snake_list.insert(0,tail)
     drawSnake(snake_list)
-    if foodnumber<=0:
+    if foodnumber==0:
         food.goto((0,0))
         food.pencolor("orange")
-        food.write("You are the WINNER\n",align="center",font=["Optima Bold",50])
-        food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
-        time.sleep(10)
-        sys.exit()
-    # if (abs(monPosition[0]-head[0])<=10) and (abs(monPosition[1]-head[1])<=10):
-    #     food.goto(head)
-    #     food.pencolor("red")
-    #     food.write("Game Over")
-    # print(head)
-    # print(monPosition)
-    screen.ontimer(gameMain,200)
-def monsterMove():
-    global snake_dir
-    global monPosition
-    monster.st()
-    control()
-    if snake_dir=="up":
-        if monPosition[1]<220:
-            monster.goto(monPosition[0] ,(monPosition[1]+45))
-    if snake_dir=="down":
-        if monPosition[1]>(-230):
-            monster.goto(monPosition[0] , (monPosition[1]-55))
-    if snake_dir=="right":
-        if monPosition[0]<230:
-            monster.goto((monPosition[0] + 35) , monPosition[1])
-    if snake_dir=="left":
-        if monPosition[0]>(-230):
-            monster.goto((monPosition[0] - 55) , monPosition[1])
-    monPosition = monster.pos()
-    screen.ontimer(monsterMove,400)
+        food.write("You are the WINNER",align="center",font=["Optima Bold",50])
+    screen.ontimer(move,200)
 
 
-# tracer(0)
+
+
 creatFood()
-monsterMove()
-gameMain()
+print(food_dic)
+move()
 
-
-# thread_snake=threading.Thread(target=snakeMove)
-# thread_monster=threading.Thread(target=monsterMove)
-# thread_snake.start()
-# thread_monster.start()
 done()
