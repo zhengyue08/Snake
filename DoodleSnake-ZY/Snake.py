@@ -31,6 +31,9 @@ monster.fillcolor("purple")
 monPosition= (-120,-120)
 tracer(0)
 monster.goto(monPosition)
+
+
+
 def creatFood():
     global food_dic
     tracer(0)
@@ -146,45 +149,31 @@ def gameMain():
         else:
             snake_list.insert(0,tail)
     drawSnake(snake_list)
-    # if foodnumber<=0:
-    #     food.goto((0,0))
-    #     food.pencolor("orange")
-    #     food.write("You are the WINNER\n",align="center",font=["Optima Bold",50])
-    #     food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
-    #     time.sleep(10)
-    #     sys.exit()
-    # if (abs(monPosition[0]-head[0])<=10) and (abs(monPosition[1]-head[1])<=10):
-    #     food.goto(head)
-    #     food.pencolor("red")
-    #     food.write("Game Over")
-    # print(head)
-    # print(monPosition)
-    gameExit()
+    gameExit(foodnumber,head,monPosition)
     screen.ontimer(gameMain,200)
 def monsterMove():
     global snake_dir
     global monPosition
     monster.st()
     control()
+    # vMon=vMonster(head,monPosition)
+    vMon = vMonster()
     if snake_dir=="up":
         if monPosition[1]<220:
-            monster.goto(monPosition[0] ,(monPosition[1]+45))
+            monster.goto(monPosition[0] ,(monPosition[1]+vMon))
     if snake_dir=="down":
         if monPosition[1]>(-230):
-            monster.goto(monPosition[0] , (monPosition[1]-55))
+            monster.goto(monPosition[0] , (monPosition[1]-vMon))
     if snake_dir=="right":
         if monPosition[0]<230:
-            monster.goto((monPosition[0] + 35) , monPosition[1])
+            monster.goto((monPosition[0] + vMon) , monPosition[1])
     if snake_dir=="left":
         if monPosition[0]>(-230):
-            monster.goto((monPosition[0] - 55) , monPosition[1])
+            monster.goto((monPosition[0] - vMon) , monPosition[1])
     monPosition = monster.pos()
     screen.ontimer(monsterMove,400)
 
-def gameExit():
-    global foodnumber
-    global head
-
+def gameExit(foodnumber,head,monPosition):
     if foodnumber<=0:
         food.goto((0,0))
         food.pencolor("orange")
@@ -192,9 +181,25 @@ def gameExit():
         food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
         time.sleep(10)
         sys.exit()
-
-
+    if abs(head[0]-monPosition[0])<=5 and abs(head[1]-monPosition[1])<=5:
+        food.goto((0, 0))
+        food.pencolor("red")
+        food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
+        food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
+        time.sleep(10)
+        sys.exit()
 # tracer(0)
+# def vMonster(head, monPosition):
+#     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**1/2
+#     vMon=3**dis*20
+#     return vMon
+def vMonster():
+    global head
+    global monPosition
+    dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
+    vMon=int(dis**2)
+    print(vMon)
+    return vMon
 creatFood()
 monsterMove()
 gameMain()
