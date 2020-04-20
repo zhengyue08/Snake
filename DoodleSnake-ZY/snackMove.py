@@ -63,11 +63,13 @@ def mainMove():
     if snake_dir=="down":
         snake_list.append((snake_list[-1][0] , snake_list[-1][1]-unit))
     drawSnake(snake_list)
+    # thread = threading.Timer(0.5, mainMove)
+    # thread.start()
     screen.ontimer(mainMove,200)
 
 
-def a():
-    thread=threading.Thread(target=mainMove)
-    thread.start()
-a()
+mainMove()
+# thread=threading.Timer(0.5,mainMove)
+# thread.start()
+
 done()
