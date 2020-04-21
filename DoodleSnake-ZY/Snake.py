@@ -72,7 +72,7 @@ def drawSnake(snake_list):
 
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
-    vMon=int(dis+2)*10
+    vMon=int(dis+2)*15
 
     print(head,monPosition,vMon)
     return vMon
@@ -113,6 +113,7 @@ def isEaten():
         # disy = head[1] - foodxy[1]
         if (disx==0) and (disy==0):
             foodsize=food_dic[foodxy]+foodsize
+            foodnumber-=1
             del food_dic[foodxy]
             food.pencolor("white")
             food.goto(foodxy)
@@ -150,30 +151,28 @@ def monsterMove():
     monPosition = monster.pos()
     screen.ontimer(monsterMove,400)
 
-def gameMain():
+def snakeMain():
     global head
-    global foodnumber
     global foodsize
     global tail
     global monPosition
     tail=snake_list[0]
     snake.clearstamps()
-    deci=isEaten()
-    if deci==True:
-        foodnumber-=1
-        print(foodnumber)
+    isEaten()
+    control()
     if foodsize==0:
         del snake_list[0]
+        controlSnakev=200
     else:
         foodsize-=1
-    control()
+        controlSnakev =400
+
     if snake_dir == "right" :
         # snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         if (head[0]<230):
             snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
-
     if snake_dir == "left":
         # snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         if (-230<head[0]):
@@ -194,7 +193,7 @@ def gameMain():
             snake_list.insert(0,tail)
     drawSnake(snake_list)
     gameExit(foodnumber,head,monPosition)
-    screen.ontimer(gameMain,200)
+    screen.ontimer(snakeMain,controlSnakev)
     
 def gameExit(foodnumber,head,monPosition):
     if foodnumber<=0:
@@ -212,15 +211,12 @@ def gameExit(foodnumber,head,monPosition):
         time.sleep(8)
         sys.exit()
 
-# creatFood()
-# monsterMove()
-# gameMain()
 startUI()
 def main(x,y):
     clear()
     creatFood()
     monsterMove()
-    gameMain()
+    snakeMain()
 screen.onclick(main)
 screen.listen()
 
