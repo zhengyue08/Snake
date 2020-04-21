@@ -12,7 +12,8 @@ food.turtlesize(1.5)
 food.pen(fillcolor="white",pendown="False")
 screen = Screen()
 screen.setup(500,500)
-snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
+# snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
+snake_list = [(0,0)]
 stamp_list = []
 food_dic = {}
 snake_dir="up"
@@ -73,8 +74,6 @@ def drawSnake(snake_list):
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
     vMon=int(dis+2)*15
-
-    print(head,monPosition,vMon)
     return vMon
 
 def goUp():
@@ -156,30 +155,34 @@ def snakeMain():
     global foodsize
     global tail
     global monPosition
+    global snake_list
     tail=snake_list[0]
     snake.clearstamps()
     isEaten()
     control()
-    if foodsize==0:
-        del snake_list[0]
-        controlSnakev=200
-    else:
-        foodsize-=1
-        controlSnakev =400
-
+    lenth=len(snake_list)
+    print(lenth)
+    controlSnakev = 200
+    if lenth>5:
+        if foodsize==0 :
+            del snake_list[0]
+            controlSnakev=200
+        else:
+            foodsize-=1
+            controlSnakev =400
     if snake_dir == "right" :
         # snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         if (head[0]<230):
             snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
-    if snake_dir == "left":
+    if snake_dir == "left" :
         # snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         if (-230<head[0]):
             snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
-    if snake_dir == "up":
+    if snake_dir == "up" :
         # snake_list.append((snake_list[-1][0] , snake_list[-1][1]+unit))
         if (head[1]<230):
             snake_list.append((snake_list[-1][0] , snake_list[-1][1] +unit))
@@ -203,7 +206,7 @@ def gameExit(foodnumber,head,monPosition):
         food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
         time.sleep(8)
         sys.exit()
-    if abs(head[0]-monPosition[0])<=5 and abs(head[1]-monPosition[1])<=5:
+    if abs(head[0]-monPosition[0])<=8 and abs(head[1]-monPosition[1])<=8:
         food.goto((0, 0))
         food.pencolor("red")
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
