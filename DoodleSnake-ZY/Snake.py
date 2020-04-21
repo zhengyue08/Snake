@@ -151,27 +151,7 @@ def gameMain():
     drawSnake(snake_list)
     gameExit(foodnumber,head,monPosition)
     screen.ontimer(gameMain,200)
-# def monsterMove():
-#     global snake_dir
-#     global monPosition
-#     monster.st()
-#     control()
-#     vMon=vMonster(head,monPosition)
-#     # vMon = vMonster()
-#     if snake_dir=="up":
-#         if monPosition[1]<220:
-#             monster.goto(monPosition[0] ,(monPosition[1]+vMon))
-#     if snake_dir=="down":
-#         if monPosition[1]>(-230):
-#             monster.goto(monPosition[0] , (monPosition[1]-vMon))
-#     if snake_dir=="right":
-#         if monPosition[0]<230:
-#             monster.goto((monPosition[0] + vMon) , monPosition[1])
-#     if snake_dir=="left":
-#         if monPosition[0]>(-230):
-#             monster.goto((monPosition[0] - vMon) , monPosition[1])
-#     monPosition = monster.pos()
-#     screen.ontimer(monsterMove,400)
+
 def monsterMove():
     global monPosition
     monster.st()
@@ -216,11 +196,6 @@ def gameExit(foodnumber,head,monPosition):
         food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
         time.sleep(10)
         sys.exit()
-# tracer(0)
-# def vMonster(head, monPosition):
-#     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**1/2
-#     vMon=3**dis*20
-#     return vMon
 def vMonster(head,monPosition):
     # global head
     # global monPosition
