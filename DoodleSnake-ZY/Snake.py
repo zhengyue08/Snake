@@ -6,6 +6,7 @@ import sys
 unit = 20
 screen = Screen()
 screen.setup(500,500)
+screen.title("Enjoy your Game")
 tracer(0)
 
 food = Turtle();food.hideturtle()
@@ -30,6 +31,10 @@ monster.pencolor("purple")
 monster.fillcolor("purple")
 monPosition= (random.randrange(-230,230,10),random.randrange(-200,-50,10))
 monster.goto(monPosition)
+
+start=0
+end=0
+
 
 def startUI():
     global monPosition
@@ -162,17 +167,22 @@ def monsterMove():
     screen.ontimer(monsterMove,400)
 
 def snakeMain():
+
     global head
     global foodsize
     global tail
     global monPosition
     global snake_list
+    global end
+    global start
+    screen.title("Time: {}".format(int(end-start)))
     tail=snake_list[0]
     snake.clearstamps()
     isEaten()
     control()
     lenth=len(snake_list)
     controlSnakev = 200
+    end=time.perf_counter()
     if lenth>5:
         if foodsize==0 :
             del snake_list[0]
@@ -209,6 +219,7 @@ def snakeMain():
     screen.ontimer(snakeMain,controlSnakev)
     
 def gameExit(foodnumber,head,monPosition):
+    global end
     if foodnumber<=0:
         food.goto((0,0))
         food.pencolor("orange")
@@ -216,6 +227,7 @@ def gameExit(foodnumber,head,monPosition):
         food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
         time.sleep(8)
         sys.exit()
+        # end=time.perf_counter()
     if abs(head[0]-monPosition[0])<=9 and abs(head[1]-monPosition[1])<=9:
         food.goto((0, 0))
         food.pencolor("red")
@@ -223,9 +235,13 @@ def gameExit(foodnumber,head,monPosition):
         food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
         time.sleep(8)
         sys.exit()
+        # end = time.perf_counter()
 
 startUI()
 def main(x,y):
+    global start
+    global end
+    start=time.perf_counter()
     clear()
     creatFood()
     monsterMove()
