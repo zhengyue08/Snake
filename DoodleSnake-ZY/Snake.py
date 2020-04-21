@@ -4,32 +4,31 @@ import random
 import time
 import sys
 unit = 20
-snake = Turtle();snake.hideturtle()
-food = Turtle();food.hideturtle()
+screen = Screen()
+screen.setup(500,500)
+tracer(0)
 
+food = Turtle();food.hideturtle()
 food.shape("square")
 food.turtlesize(1.5)
 food.pen(fillcolor="white",pendown="False")
-screen = Screen()
-screen.setup(500,500)
-# snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
-snake_list = [(0,0)]
-stamp_list = []
 food_dic = {}
-snake_dir="up"
 foodsize=0
 foodnumber=9
+
+snake = Turtle();snake.hideturtle()
+snake_list = [(0,0)]
+snake_dir="up"
 head =(0,0)
 tail =(0,0)
-monster = Turtle()
 
+monster = Turtle()
 monster.penup()
+monster.ht()
 monster.shape("square")
 monster.pencolor("purple")
 monster.fillcolor("purple")
 monPosition= (random.randrange(-230,230,10),random.randrange(-200,-50,10))
-monster.ht()
-tracer(0)
 monster.goto(monPosition)
 
 def startUI():
@@ -64,6 +63,7 @@ def creatFood():
         food.write(i,align="center",font=["Arial Bold",12])
         food_dic[foodxy]=i
 
+# Draw Snake according to the snake_list
 def drawSnake(snake_list):
     tracer(0)
     snake.shape("square")
@@ -81,6 +81,7 @@ def drawSnake(snake_list):
             snake.stamp()
     update()
 
+# The function of monster between distance between monster and snake
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
     vMon=int(dis+5)*8
@@ -230,8 +231,5 @@ def main(x,y):
     monsterMove()
     snakeMain()
 screen.onclick(main)
-screen.listen()
-
-
 
 done()
