@@ -89,7 +89,7 @@ def drawSnake(snake_list):
 # The function of monster between distance between monster and snake
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
-    vMon=int(dis+5)*8
+    vMon=int(dis+5)*3
     return vMon
 
 def goUp():
@@ -164,7 +164,7 @@ def monsterMove():
         else:
             monster.goto(monPosition[0], monPosition[1] - vMon)
     monPosition = monster.pos()
-    screen.ontimer(monsterMove,400)
+    screen.ontimer(monsterMove,300)
 
 def snakeMain():
 
@@ -228,7 +228,7 @@ def gameExit(foodnumber,head,monPosition):
         time.sleep(8)
         sys.exit()
         # end=time.perf_counter()
-    if abs(head[0]-monPosition[0])<=9 and abs(head[1]-monPosition[1])<=9:
+    if abs(head[0]-monPosition[0])<=8 and abs(head[1]-monPosition[1])<=8:
         food.goto((0, 0))
         food.pencolor("red")
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
