@@ -8,10 +8,8 @@ snake = Turtle();snake.hideturtle()
 food = Turtle();food.hideturtle()
 
 food.shape("square")
-food.fillcolor("white")
 food.turtlesize(1.5)
-
-food.penup()
+food.pen(fillcolor="white",pendown="False")
 screen = Screen()
 screen.setup(500,500)
 snake_list = [(0,0),(0,unit),(0,unit*2),(0,unit*3),(0,unit*4),(0,unit*5)]
@@ -23,16 +21,25 @@ foodnumber=9
 head =(0,0)
 tail =(0,0)
 monster = Turtle()
-monster.ht()
+
 monster.penup()
 monster.shape("square")
 monster.pencolor("purple")
 monster.fillcolor("purple")
 monPosition= (-120,-120)
+monster.ht()
 tracer(0)
 monster.goto(monPosition)
 
-
+def startUI():
+    hideturtle()
+    penup()
+    goto(-200,100)
+    write("Welcome to Richard's version of Snake\n\n"
+          "You are going to use the 4 arrow keys to move the snake\n"
+          "around the screen, trying to consume all the food items\n"
+          "before the monster catches you...\n\n"
+          "click anywhere to start the game, have fun!!",font=["Arial Bold",15])
 
 def creatFood():
     global food_dic
@@ -62,6 +69,13 @@ def drawSnake(snake_list):
             snake.goto(i)
             snake.stamp()
     update()
+
+def vMonster(head,monPosition):
+    dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
+    vMon=int(dis+2)*10
+
+    print(head,monPosition,vMon)
+    return vMon
 
 def goUp():
     global snake_dir
@@ -105,6 +119,36 @@ def isEaten():
             food.stamp()
             return True
     return False
+
+def monsterMove():
+    global monPosition
+    monster.st()
+    # monster.pendown()
+    vMon=vMonster(head,monPosition)
+    x=head[0]-monPosition[0]
+    y=head[1]-monPosition[1]
+    if x>0 and y>0:
+        if abs(x)>abs(y):
+            monster.goto(monPosition[0] + vMon, monPosition[1])
+        else:
+            monster.goto(monPosition[0], monPosition[1] + vMon)
+    if x>0 and y<0:
+        if abs(x)>abs(y):
+            monster.goto(monPosition[0] + vMon, monPosition[1])
+        else:
+            monster.goto(monPosition[0], monPosition[1] - vMon)
+    if x<0 and y>0:
+        if abs(x)>abs(y):
+            monster.goto(monPosition[0] - vMon, monPosition[1])
+        else:
+            monster.goto(monPosition[0], monPosition[1] + vMon)
+    if x<0 and y<0:
+        if abs(x)>abs(y):
+            monster.goto(monPosition[0] - vMon, monPosition[1])
+        else:
+            monster.goto(monPosition[0], monPosition[1] - vMon)
+    monPosition = monster.pos()
+    screen.ontimer(monsterMove,400)
 
 def gameMain():
     global head
@@ -151,66 +195,35 @@ def gameMain():
     drawSnake(snake_list)
     gameExit(foodnumber,head,monPosition)
     screen.ontimer(gameMain,200)
-
-def monsterMove():
-    global monPosition
-    monster.st()
-    vMon=vMonster(head,monPosition)
-    x=head[0]-monPosition[0]
-    y=head[1]-monPosition[1]
-    if x>0 and y>0:
-        if abs(x)>abs(y):
-            monster.goto(monPosition[0] + vMon, monPosition[1])
-        else:
-            monster.goto(monPosition[0], monPosition[1] + vMon)
-    if x>0 and y<0:
-        if abs(x)>abs(y):
-            monster.goto(monPosition[0] + vMon, monPosition[1])
-        else:
-            monster.goto(monPosition[0], monPosition[1] - vMon)
-    if x<0 and y>0:
-        if abs(x)>abs(y):
-            monster.goto(monPosition[0] - vMon, monPosition[1])
-        else:
-            monster.goto(monPosition[0], monPosition[1] + vMon)
-    if x<0 and y<0:
-        if abs(x)>abs(y):
-            monster.goto(monPosition[0] - vMon, monPosition[1])
-        else:
-            monster.goto(monPosition[0], monPosition[1] - vMon)
-    monPosition = monster.pos()
-    screen.ontimer(monsterMove,400)
-
+    
 def gameExit(foodnumber,head,monPosition):
     if foodnumber<=0:
         food.goto((0,0))
         food.pencolor("orange")
         food.write("You are the WINNER\n",align="center",font=["Optima Bold",50])
         food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
-        time.sleep(10)
+        time.sleep(8)
         sys.exit()
     if abs(head[0]-monPosition[0])<=5 and abs(head[1]-monPosition[1])<=5:
         food.goto((0, 0))
         food.pencolor("red")
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
         food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
-        time.sleep(10)
+        time.sleep(8)
         sys.exit()
-def vMonster(head,monPosition):
-    # global head
-    # global monPosition
-    dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
-    vMon=int(dis+2)*10
 
-    print(head,monPosition,vMon)
-    return vMon
-creatFood()
-monsterMove()
-gameMain()
+# creatFood()
+# monsterMove()
+# gameMain()
+startUI()
+def main(x,y):
+    clear()
+    creatFood()
+    monsterMove()
+    gameMain()
+screen.onclick(main)
+screen.listen()
 
 
-# thread_snake=threading.Thread(target=snakeMove)
-# thread_monster=threading.Thread(target=monsterMove)
-# thread_snake.start()
-# thread_monster.start()
+
 done()
