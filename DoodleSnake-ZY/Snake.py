@@ -27,12 +27,15 @@ monster.penup()
 monster.shape("square")
 monster.pencolor("purple")
 monster.fillcolor("purple")
-monPosition= (-120,-120)
+monPosition= (random.randrange(-230,230,10),random.randrange(-200,-50,10))
 monster.ht()
 tracer(0)
 monster.goto(monPosition)
 
 def startUI():
+    global monPosition
+    tracer(0)
+    shape("square")
     hideturtle()
     penup()
     goto(-200,100)
@@ -41,6 +44,13 @@ def startUI():
           "around the screen, trying to consume all the food items\n"
           "before the monster catches you...\n\n"
           "click anywhere to start the game, have fun!!",font=["Arial Bold",15])
+    goto(0,0)
+    pen(pencolor="red",fillcolor="red")
+    stamp()
+    goto(monPosition)
+    pen(pencolor="purple",fillcolor="purple")
+    stamp()
+    update()
 
 def creatFood():
     global food_dic
@@ -73,7 +83,7 @@ def drawSnake(snake_list):
 
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
-    vMon=int(dis+2)*15
+    vMon=int(dis+5)*8
     return vMon
 
 def goUp():
@@ -161,7 +171,6 @@ def snakeMain():
     isEaten()
     control()
     lenth=len(snake_list)
-    print(lenth)
     controlSnakev = 200
     if lenth>5:
         if foodsize==0 :
@@ -206,7 +215,7 @@ def gameExit(foodnumber,head,monPosition):
         food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
         time.sleep(8)
         sys.exit()
-    if abs(head[0]-monPosition[0])<=8 and abs(head[1]-monPosition[1])<=8:
+    if abs(head[0]-monPosition[0])<=9 and abs(head[1]-monPosition[1])<=9:
         food.goto((0, 0))
         food.pencolor("red")
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
