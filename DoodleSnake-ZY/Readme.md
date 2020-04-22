@@ -59,10 +59,11 @@ features by initializing parameters of `pen()`and`shape()`on the top of codes. I
                 snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
             else:
                 snake_list.insert(0,tail)
-        ```
-        <img src=https://i.loli.net/2020/04/22/9RqLpkaAtWDs5Gu.png width="300" height="300" alt="turn" align="center">
+        ```. 
+        In the codes below we add some conditions to avoid the snake move out of screen.    
+            
+   <img src=https://i.loli.net/2020/04/22/9RqLpkaAtWDs5Gu.png width="300" height="300" alt="turn" align="center">.  
         
-    In the codes below we add some conditions to avoid the snake move out of screen.
    - **Monster**  
    Different from snake, monster is only one square. So we just use the turtle's head as the monster.To chase the snake, we need to compare the coordinates of head of snake and monster,and invoke `turtle.goto()` to move it. For the velocity of Monster, I create a linear function to 
 change.
@@ -98,9 +99,12 @@ change.
         time.sleep(8)
         sys.exit()   
   ```
-  <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="left">
-  ---------
+  <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="left">.   
   
+  
+  
+  ------------------------------------------------  
+ 
   This is my first time using English to write a design documents, welcome every one to give advices🙏🙏🙏.   
   
   **Welcome every one give your opinion on the game "Snake"**
