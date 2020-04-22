@@ -164,7 +164,7 @@ def monsterMove():
         else:
             monster.goto(monPosition[0], monPosition[1] - vMon)
     monPosition = monster.pos()
-    screen.ontimer(monsterMove,250)
+    screen.ontimer(monsterMove,300)
 
 def snakeMain():
 
@@ -180,6 +180,7 @@ def snakeMain():
     snake.clearstamps()
     isEaten()
     control()
+
     lenth=len(snake_list)
     controlSnakev = 200
     end=time.perf_counter()
@@ -210,8 +211,9 @@ def snakeMain():
             snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
         else:
             snake_list.insert(0,tail)
+
     drawSnake(snake_list)
-    gameExit(foodnumber,head,monPosition)
+    gameExit(foodnumber, head, monPosition)
     screen.ontimer(snakeMain,controlSnakev)
     
 def gameExit(foodnumber,head,monPosition):
@@ -224,7 +226,7 @@ def gameExit(foodnumber,head,monPosition):
         time.sleep(8)
         sys.exit()
         # end=time.perf_counter()
-    if abs(head[0]-monPosition[0])<=8 and abs(head[1]-monPosition[1])<=8:
+    if abs(head[0]-monPosition[0])<=6 and abs(head[1]-monPosition[1])<=6:
         food.goto((0, 0))
         food.pencolor("red")
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
@@ -240,8 +242,9 @@ def main(x,y):
     start=time.perf_counter()
     clear()
     creatFood()
-    monsterMove()
     snakeMain()
+    monsterMove()
+
 screen.onclick(main)
 
 done()
