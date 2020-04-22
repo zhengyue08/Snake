@@ -60,6 +60,8 @@ features by initializing parameters of `pen()`and`shape()`on the top of codes. I
             else:
                 snake_list.insert(0,tail)
         ```
+        <img src=https://i.loli.net/2020/04/22/9RqLpkaAtWDs5Gu.png width="300" height="300" alt="turn" align="center">
+        
     In the codes below we add some conditions to avoid the snake move out of screen.
    - **Monster**  
    Different from snake, monster is only one square. So we just use the turtle's head as the monster.To chase the snake, we need to compare the coordinates of head of snake and monster,and invoke `turtle.goto()` to move it. For the velocity of Monster, I create a linear function to 
@@ -69,9 +71,12 @@ change.
           dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
           vMon=int(dis+5)*3
           return vMon
-          ```
+      ```
+          
   - **Food**  
   Create **Food** is not a problem, but how to make the snake extend while eating a food is the problem. In my project, I define a variable called `foodsize` ,if `foodsize>0`, it refers that snake need to extend - don't delet the `snake[-1]`- in function`snakeMain()`.
+  
+  
   - **Game Exit**.  
   The game will ends in two cases: The monster catches the head of snake or The snake have eaten all foods without being catches by the monster.I define a funciton`gameExit()` and invoke it in `snakeMain()` to make the exit. A variable `foodnumber`is defined to **record the food numbers**. I use it in the function`isEaten()`. Every time the coordinates of snake's head and monster become same, `foodnumber` decrease by one.And for the first case, we just need to compare coordinates between **snake's head** and **monster**.let me show the function `gameExit()`
   ```python
@@ -91,10 +96,14 @@ change.
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
         food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
         time.sleep(8)
-        sys.exit()
-        ```
-- - -
-
-
-
+        sys.exit()   
+  ```
+  <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="left">
+  - - - 
+  
+  This is my first time using English to write a design documents, welcome every one to give advices🙏🙏🙏
+  **Welcome every one give your opinion on the game "Snake"**
+       
+       
+      
       
