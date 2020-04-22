@@ -1,6 +1,9 @@
 # Snake
-![截屏2020-04-22 下午12.21.23.png](https://i.loli.net/2020/04/22/1Tvsnmj63NRtWMF.png)
+<img src=https://i.loli.net/2020/04/22/1Tvsnmj63NRtWMF.png width="300" height="300" alt="start" align="center">   
 _(Snake.py is the formal source file of the game)_
+  Only use the standard library to build a simple game.   
+  Only use `turtle()`to create snake, monster and food
+
 ## Design
 + We can divide the game into two parts - 
 **game start interface**-`startUI()` and the **body of the game**. 
@@ -68,6 +71,30 @@ change.
           return vMon
           ```
   - **Food**  
-    -Create **Food** is not a problem, but how to make the snake extend while eating a food is the problem. In my work, I define a variable called `foodsize` ,if `foodsize>0`, it refers that snake need to extend - don't delet the `snake[-1]` in function`snakeMain()`.
-    
+  Create **Food** is not a problem, but how to make the snake extend while eating a food is the problem. In my project, I define a variable called `foodsize` ,if `foodsize>0`, it refers that snake need to extend - don't delet the `snake[-1]`- in function`snakeMain()`.
+  - **Game Exit**.  
+  The game will ends in two cases: The monster catches the head of snake or The snake have eaten all foods without being catches by the monster.I define a funciton`gameExit()` and invoke it in `snakeMain()` to make the exit. A variable `foodnumber`is defined to **record the food numbers**. I use it in the function`isEaten()`. Every time the coordinates of snake's head and monster become same, `foodnumber` decrease by one.And for the first case, we just need to compare coordinates between **snake's head** and **monster**.let me show the function `gameExit()`
+  ```python
+  def gameExit(foodnumber,head,monPosition):
+    global end
+    if foodnumber<=0:
+        food.goto((0,0))
+        food.pencolor("orange")
+        food.write("You are the WINNER\n",align="center",font=["Optima Bold",50])
+        food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
+        time.sleep(8)
+        sys.exit()
+        # end=time.perf_counter()
+    if abs(head[0]-monPosition[0])<=8 and abs(head[1]-monPosition[1])<=8:
+        food.goto((0, 0))
+        food.pencolor("red")
+        food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
+        food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
+        time.sleep(8)
+        sys.exit()
+        ```
+- - -
+
+
+
       
