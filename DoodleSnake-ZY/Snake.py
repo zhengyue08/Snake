@@ -164,7 +164,7 @@ def monsterMove():
         else:
             monster.goto(monPosition[0], monPosition[1] - vMon)
     monPosition = monster.pos()
-    screen.ontimer(monsterMove,300)
+    screen.ontimer(monsterMove,250)
 
 def snakeMain():
 
