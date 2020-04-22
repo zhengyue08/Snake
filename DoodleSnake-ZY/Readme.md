@@ -1,6 +1,8 @@
 # Snake
 <img src=https://i.loli.net/2020/04/22/1Tvsnmj63NRtWMF.png width="300" height="300" alt="start" align="center">   
-_(Snake.py is the formal source file of the game)_. 
+
+_(Snake.py is the formal source file of the game)_  
+
 
   Only use the standard library to build a simple game.   
   Only use `turtle()`to create snake, monster and food
