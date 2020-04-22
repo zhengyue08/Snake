@@ -43,11 +43,11 @@ def startUI():
     hideturtle()
     penup()
     goto(-200,100)
-    write("Welcome to Richard's version of Snake\n\n"
+    write("Welcome to Ibroad's version of Snake\n\n"
           "You are going to use the 4 arrow keys to move the snake\n"
           "around the screen, trying to consume all the food items\n"
           "before the monster catches you...\n\n"
-          "click anywhere to start the game, have fun!!",font=["Arial Bold",15])
+          "Click anywhere to start the game, have fun!!",font=["Arial Bold",15])
     goto(0,0)
     pen(pencolor="red",fillcolor="red")
     stamp()
@@ -191,25 +191,21 @@ def snakeMain():
             foodsize-=1
             controlSnakev =400
     if snake_dir == "right" :
-        # snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         if (head[0]<230):
             snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
     if snake_dir == "left" :
-        # snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         if (-230<head[0]):
             snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
     if snake_dir == "up" :
-        # snake_list.append((snake_list[-1][0] , snake_list[-1][1]+unit))
         if (head[1]<230):
             snake_list.append((snake_list[-1][0] , snake_list[-1][1] +unit))
         else:
             snake_list.insert(0,tail)
     if snake_dir == "down":
-        # snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
         if (-230<head[1]):
             snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
         else:
