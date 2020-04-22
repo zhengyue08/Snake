@@ -1,5 +1,4 @@
 from turtle import *
-import threading
 import random
 import time
 import sys
@@ -89,7 +88,7 @@ def drawSnake(snake_list):
 # The function of monster between distance between monster and snake
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
-    vMon=int(dis+5)*3
+    vMon=int(dis+5)*2.5
     return vMon
 
 def goUp():
