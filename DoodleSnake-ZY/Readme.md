@@ -1,6 +1,7 @@
 # Snake
 <img src=https://i.loli.net/2020/04/22/1Tvsnmj63NRtWMF.png width="300" height="300" alt="start" align="center">   
-_(Snake.py is the formal source file of the game)_
+_(Snake.py is the formal source file of the game)_. 
+
   Only use the standard library to build a simple game.   
   Only use `turtle()`to create snake, monster and food
 
@@ -60,7 +61,9 @@ features by initializing parameters of `pen()`and`shape()`on the top of codes. I
             else:
                 snake_list.insert(0,tail)
         ```. 
-        In the codes below we add some conditions to avoid the snake move out of screen.    
+        
+        
+   In the codes below we add some conditions to avoid the snake move out of screen.    
             
    <img src=https://i.loli.net/2020/04/22/9RqLpkaAtWDs5Gu.png width="300" height="300" alt="turn" align="center">.  
         
@@ -100,11 +103,8 @@ change.
         sys.exit()   
   ```
   <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="left">.   
-  
-  
-  
-  ------------------------------------------------  
  
+  - - -
   This is my first time using English to write a design documents, welcome every one to give advices🙏🙏🙏.   
   
   **Welcome every one give your opinion on the game "Snake"**
