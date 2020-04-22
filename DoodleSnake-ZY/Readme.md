@@ -99,9 +99,10 @@ change.
         sys.exit()   
   ```
   <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="left">
-  - - - 
+  ---------
   
-  This is my first time using English to write a design documents, welcome every one to give advices🙏🙏🙏
+  This is my first time using English to write a design documents, welcome every one to give advices🙏🙏🙏.   
+  
   **Welcome every one give your opinion on the game "Snake"**
        
        
