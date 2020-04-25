@@ -104,12 +104,13 @@ change.
         time.sleep(8)
         sys.exit()   
   ```
-  <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="left">.   
+  <img src=https://i.loli.net/2020/04/22/mIdqni3BKlxMAbh.png width="300" height="300" alt="end" align="center">.   
  
   - - -
   This is my first time using English to write a design documents, welcome every one to give advices🙏🙏🙏.   
   
-  **Welcome every one give your opinion on the game "Snake"**
+  
+  **Welcome every one give your  on the game "Snake"**
        
        
       
