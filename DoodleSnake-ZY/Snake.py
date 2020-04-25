@@ -1,5 +1,4 @@
 from turtle import *
-import threading
 import random
 import time
 import sys
@@ -19,7 +18,7 @@ foodnumber=9
 
 snake = Turtle();snake.hideturtle()
 snake_list = [(0,0)]
-direction_monster="up"
+snake_dir="up"
 head =(0,0)
 tail =(0,0)
 
@@ -43,11 +42,11 @@ def startUI():
     hideturtle()
     penup()
     goto(-200,100)
-    write("Welcome to Richard's version of Snake\n\n"
+    write("Welcome to Ibroad's version of Snake\n\n"
           "You are going to use the 4 arrow keys to move the snake\n"
           "around the screen, trying to consume all the food items\n"
           "before the monster catches you...\n\n"
-          "click anywhere to start the game, have fun!!",font=["Arial Bold",15])
+          "Click anywhere to start the game, have fun!!",font=["Arial Bold",15])
     goto(0,0)
     pen(pencolor="red",fillcolor="red")
     stamp()
@@ -68,7 +67,7 @@ def creatFood():
         food.write(i,align="center",font=["Arial Bold",12])
         food_dic[foodxy]=i
 
-
+# Draw Snake according to the snake_list
 def drawSnake(snake_list):
     tracer(0)
     snake.shape("square")
@@ -86,36 +85,35 @@ def drawSnake(snake_list):
             snake.stamp()
     update()
 
-
+# The function of monster between distance between monster and snake
 def vMonster(head,monPosition):
     dis=(((head[0]-monPosition[0])//20)**2+((head[1]-monPosition[1])//20)**2)**0.5
-    vMon=int(dis+5)*3
+    vMon=int(dis+5)*2.5
     return vMon
 
 def goUp():
-    global direction_monster
-    if direction_monster == "right" or direction_monster == "left":
-        direction_monster = "up"
+    global snake_dir
+    if snake_dir == "right" or snake_dir == "left":
+        snake_dir = "up"
 def goRight():
-    global direction_monster
-    if direction_monster == "up" or direction_monster == "down":
-        direction_monster = "right"
+    global snake_dir
+    if snake_dir == "up" or snake_dir == "down":
+        snake_dir = "right"
 def goDown():
-    global direction_monster
-    if direction_monster=="right" or direction_monster=="left":
-        direction_monster = "down"
+    global snake_dir
+    if snake_dir=="right" or snake_dir=="left":
+        snake_dir = "down"
 def goLeft():
-    global direction_monster
-    if direction_monster=="up" or direction_monster=="down":
-        direction_monster = "left"
-
+    global snake_dir
+    if snake_dir=="up" or snake_dir=="down":
+        snake_dir = "left"
+#方向总控
 def control():
     screen.listen()
     screen.onkey(goLeft,"Left")
     screen.onkey(goRight, "Right")
     screen.onkey(goUp, "Up")
     screen.onkey(goDown, "Down")
-    screen.onkey(pasueGame, "space")
 
 def isEaten():
     global foodnumber
@@ -138,9 +136,6 @@ def isEaten():
     return False
 
 def monsterMove():
-    if not mRun:
-        return
-    renewtitle()
     global monPosition
     monster.st()
     # monster.pendown()
@@ -168,24 +163,26 @@ def monsterMove():
         else:
             monster.goto(monPosition[0], monPosition[1] - vMon)
     monPosition = monster.pos()
-    screen.ontimer(monsterMove,500)
+    screen.ontimer(monsterMove,300)
 
 def snakeMain():
-    if not sRun:
-        return
+
     global head
     global foodsize
     global tail
     global monPosition
     global snake_list
+    global end
     global start
-    renewtitle()
+    screen.title("Time: {}".format(int(end-start)))
     tail=snake_list[0]
     snake.clearstamps()
     isEaten()
     control()
+
     lenth=len(snake_list)
     controlSnakev = 200
+    end=time.perf_counter()
     if lenth>5:
         if foodsize==0 :
             del snake_list[0]
@@ -193,139 +190,59 @@ def snakeMain():
         else:
             foodsize-=1
             controlSnakev =400
-    if direction_monster == "right" :
-        # snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
+    if snake_dir == "right" :
         if (head[0]<230):
             snake_list.append((snake_list[-1][0] + unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
-    if direction_monster == "left" :
-        # snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
+    if snake_dir == "left" :
         if (-230<head[0]):
             snake_list.append((snake_list[-1][0] - unit, snake_list[-1][1]))
         else:
             snake_list.insert(0,tail)
-    if direction_monster == "up" :
-        # snake_list.append((snake_list[-1][0] , snake_list[-1][1]+unit))
+    if snake_dir == "up" :
         if (head[1]<230):
             snake_list.append((snake_list[-1][0] , snake_list[-1][1] +unit))
         else:
             snake_list.insert(0,tail)
-    if direction_monster == "down":
-        # snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
+    if snake_dir == "down":
         if (-230<head[1]):
             snake_list.append((snake_list[-1][0], snake_list[-1][1] - unit))
         else:
             snake_list.insert(0,tail)
+
     drawSnake(snake_list)
-    gameExit(foodnumber,head,monPosition)
+    gameExit(foodnumber, head, monPosition)
     screen.ontimer(snakeMain,controlSnakev)
-
-
+    
 def gameExit(foodnumber,head,monPosition):
+    global end
     if foodnumber<=0:
         food.goto((0,0))
         food.pencolor("orange")
         food.write("You are the WINNER\n",align="center",font=["Optima Bold",50])
-        food.write("Good", align="center", font=["Optima Bold", 25])
+        food.write("👍👍👍👍", align="center", font=["Optima Bold", 25])
         time.sleep(8)
         sys.exit()
         # end=time.perf_counter()
-    if abs(head[0]-monPosition[0])<=8 and abs(head[1]-monPosition[1])<=8:
+    if abs(head[0]-monPosition[0])<=6 and abs(head[1]-monPosition[1])<=6:
         food.goto((0, 0))
         food.pencolor("red")
         food.write("Game Over!\n", align="center", font=["Optima Bold", 50])
-        food.write("Try again", align="center", font=["Optima Bold", 25])
+        food.write("😂😂😂😂", align="center", font=["Optima Bold", 25])
         time.sleep(8)
         sys.exit()
         # end = time.perf_counter()
 
-
-def interesct():
-    a = 1
-    b = 0
-    global track_keep
-    track_keep_pre = track_keep
-    track_keep = []
-    x_m = monPosition[0] / 20
-    y_m = monPosition[1] / 20
-    counting = 1
-    length = len(snake_list)
-    while counting <= length:
-        findL = counting - 1
-        cor2 = snake_list[findL]
-        print('snake'+str(cor2))
-        xcor2 = cor2[0] / 20
-        ycor2 = cor2[1] / 20
-        delX = abs(xcor2 - x_m)
-        print(delX)
-        delY = abs(ycor2 - y_m)
-        print(delY)
-        counting = counting + 1
-        if (delX <= 1) and (delY <= 1):
-            track_keep.append(counting)
-    if track_keep_pre == []:
-        if track_keep != []:
-            return a
-        else:
-            return b
-    else:
-        return b
-
-def renewtitle():
-    global termin
-    global contacttime
-    newtime = interesct()
-    contacttime = contacttime + newtime
-    termin = time.perf_counter()
-    titletxt = "Time: " + str(int(termin - begin))+", Contact: " + str(contacttime)
-    screen.title(titletxt)
-
-
-def pasueGame():
-    global sRun
-    global mRun
-    global pausewhen
-    pausewhen = time.perf_counter()
-    sRun = False
-    mRun = False
-    screen.onkey(continueGame, "space")
-    screen.listen()
-    done()
-
-
-def continueGame():
-    global mRun
-    global sRun
-    global begin
-    resumwhen = time.perf_counter()
-    correction = resumwhen - pausewhen
-    begin = begin + correction
-    sRun = True
-    mRun = True
-    ontimer(snakeMain, 100)
-    ontimer(monsterMove, 100)
-    return
-
-
 startUI()
-
-
 def main(x,y):
-    global begin
-    global contacttime
-    global track_keep
-    global mRun
-    global sRun
-    mRun = True
-    sRun = True
-    track_keep=[]
-    contacttime=0
-    begin=time.perf_counter()
+    global start
+    global end
+    start=time.perf_counter()
     clear()
     creatFood()
-    monsterMove()
     snakeMain()
+    monsterMove()
 
 screen.onclick(main)
 
